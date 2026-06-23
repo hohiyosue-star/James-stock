@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: ming-stock
+    runtime: python
+    plan: free
+    buildCommand: pip install --upgrade pip
+    startCommand: python server.py

@@ -1,0 +1,80 @@
+============================================
+ 把「明爸分類股價」部署到 Render（免費）教學
+============================================
+
+Render 是從「GitHub 上的程式碼」自動部署的，所以分兩階段：
+先把這個資料夾的檔案放上 GitHub，再讓 Render 連到它。
+全程免費、不需要信用卡。
+
+──────────────────────────────────────────
+ 第一階段：把檔案放上 GitHub
+──────────────────────────────────────────
+1. 開 https://github.com ，註冊一個免費帳號（已有就直接登入）。
+
+2. 登入後，點右上角「＋」→「New repository」。
+   - Repository name：隨便取，例如 ming-stock
+   - 選「Public」（公開）
+   - 按綠色「Create repository」
+
+3. 進到新頁面後，點中間的連結
+   「uploading an existing file」。
+
+4. 把「Render上線版」資料夾裡的【全部檔案】拖進網頁：
+      server.py
+      render.yaml
+      requirements.txt
+      kline_data.js
+      明爸分類股價.html
+      明爸分類股價_K線內嵌.html
+      明爸目標價彙整.html
+      1.html
+   ※ 注意：拖「檔案」本身，不要拖整個外層資料夾。
+
+5. 等檔案都上傳完（kline_data.js 較大約 8MB，等綠色打勾），
+   按下方綠色「Commit changes」。
+
+──────────────────────────────────────────
+ 第二階段：到 Render 部署
+──────────────────────────────────────────
+1. 開 https://render.com ，按「Sign in with GitHub」用剛剛的
+   GitHub 帳號登入，並按 Authorize 授權。
+
+2. 進到主畫面後，點右上「New +」→「Web Service」。
+
+3. 選「Build and deploy from a Git repository」→ 找到你剛建的
+   ming-stock，按「Connect」。
+
+4. 填寫設定（多數會自動帶好）：
+   - Name：隨意（會變成網址的一部分）
+   - Region：選「Singapore」（離台灣最近、最快）
+   - Branch：main
+   - Language / Runtime：Python 3（通常自動偵測）
+   - Build Command：留空，或 pip install --upgrade pip
+   - Start Command：  python server.py
+   - Instance Type：一定要選「Free」
+
+5. 按最下方「Create Web Service」。
+   等幾分鐘讓它 build＋啟動（畫面會跑一堆 log，看到
+   「伺服器執行中」或「Live」就好了）。
+
+6. 部署完成後，畫面上方會出現一個網址，像：
+      https://ming-stock.onrender.com
+   點開它，就是你的線上版！手機、別台電腦都能開。
+
+──────────────────────────────────────────
+ 使用須知（重要）
+──────────────────────────────────────────
+• 線上「即時股價」是由 Render 伺服器代抓官方資料，穩定可靠，
+  不再依賴那些不穩的公開代理。
+
+• Render 免費版：閒置約 15 分鐘會「休眠」，下次打開要等
+  約 30 秒～1 分鐘喚醒，這是正常現象，醒來後就順了。
+
+• 線上按「更新K線檔」可以運作，但 Render 免費版重新部署/
+  重啟後檔案會還原（不會永久保存）。
+  → 想永久更新 K 線歷史：在本機用「啟動股價.command」更新後，
+    把新的 kline_data.js 重新上傳到 GitHub（覆蓋舊的），
+    Render 會自動重新部署成最新版。
+
+• 之後若改了任何網頁檔，只要把新檔重新上傳到 GitHub，
+  Render 就會自動重新部署，網址不變。
