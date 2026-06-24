@@ -64,8 +64,9 @@ def _extract(x, suffix, snap):
         if x.get(k) not in (None, ''):
             chg = _num(x.get(k))
             break
+    name = x.get('Name') or x.get('CompanyName') or x.get('SecuritiesCompanyName') or x.get('CompanyName ') or ''
     if code not in snap:
-        snap[code] = [close, chg, suffix]
+        snap[code] = [close, chg, suffix, str(name).strip()]
 
 
 def build_snapshot():
